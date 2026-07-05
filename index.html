@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extraction & Verification Tool</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📄 Extraction & Verification of Information</h1>
+<p class="subtitle">From Semi-Categorised Data</p>
+
+<div class="upload-box">
+
+<input type="file" id="imageInput" accept="image/*">
+
+<img id="preview">
+
+<button onclick="uploadImage()">Extract & Verify</button>
+
+</div>
+
+<div class="result-card">
+
+<h2>Extracted Information</h2>
+
+<table>
+
+<tr>
+    <th>Field</th>
+    <th>Information</th>
+</tr>
+
+<tr>
+    <td>👤Name</td>
+    <td id="name">-</td>
+</tr>
+
+<tr>
+    <td>📞 Phone</td>
+    <td id="phone">-</td>
+</tr>
+
+<tr>
+    <td>✉ Email</td>
+    <td id="email">-</td>
+</tr>
+
+<tr>
+    <td>🎓 Course</td>
+    <td id="course">-</td>
+</tr>
+
+<tr>
+    <td>🏫 College</td>
+    <td id="college">-</td>
+</tr>
+
+<tr>
+    <td>📍 Address</td>
+    <td id="address">-</td>
+</tr>
+
+<tr>
+    <td>📅 Date</td>
+    <td id="date">-</td>
+</tr>
+
+<tr>
+    <td>📊 Status</td>
+    <td id="status">Waiting...</td>
+</tr>
+
+</table>
+
+</div>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
