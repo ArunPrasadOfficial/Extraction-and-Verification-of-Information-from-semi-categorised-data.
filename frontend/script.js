@@ -1,96 +1,146 @@
-const imageInput = document.getElementById("imageInput");
-const preview = document.getElementById("preview");
+// =============================
+// Global Variables
+// =============================
 
-imageInput.addEventListener("change", function () {
+const fileInput = document.getElementById("fileInput");
+const previewImage = document.getElementById("previewImage");
 
-const file = this.files[0];
+const uploadBtn = document.getElementById("uploadBtn");
+const extractBtn = document.getElementById("extractBtn");
+const clearBtn = document.getElementById("clearBtn");
 
-if(file){
+// =============================
+// Choose File Button
+// =============================
 
-preview.src = URL.createObjectURL(file);
+uploadBtn.addEventListener("click", () => {
+    fileInput.click();
+});
 
-preview.style.display="block";
+// =============================
+// Preview Selected Image
+// =============================
 
-}
+fileInput.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        previewImage.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
 
 });
 
-function uploadImage(){
+// =============================
+// Extract Information
+// =============================
 
-const file=imageInput.files[0];
+extractBtn.addEventListener("click", async () => {
 
-if(!file){
+    const file = fileInput.files[0];
 
-alert("Please select an image.");
+    if (!file) {
+        alert("Please select an image.");
+        return;
+    }
 
-return;
+    const formData = new FormData();
+    formData.append("file", file);
 
-}
+    try {
 
-document.getElementById("status").innerHTML="⏳ Processing...";
+        extractBtn.innerHTML = "Extracting...";
+        extractBtn.disabled = true;
 
-const formData=new FormData();
+        const response = await fetch("http://127.0.0.1:8000/upload", {
+            method: "POST",
+            body: formData
+        });
 
-formData.append("file",file);
+        const result = await response.json();
 
-fetch("http://127.0.0.1:8000/upload",{
+        if (result.success) {
 
-method:"POST",
+            const data = result.extracted_data;
 
-body:formData
+            document.getElementById("name").innerText =
+                data.name || "Missing";
 
-})
+            document.getElementById("course").innerText =
+                data.course || "Missing";
 
-.then(response=>response.json())
+            document.getElementById("department").innerText =
+                data.department || "Missing";
 
-.then(data=>{
+            document.getElementById("college").innerText =
+                data.college || "Missing";
 
-if(!data.success){
+            document.getElementById("register").innerText =
+                data.register_no || "Missing";
 
-document.getElementById("status").innerHTML="❌ Failed";
+            document.getElementById("email").innerText =
+                data.email || "Missing";
 
-return;
+            document.getElementById("phone").innerText =
+                data.phone || "Missing";
 
-}
+            document.getElementById("address").innerText =
+                data.address || "Missing";
 
-document.getElementById("name").innerHTML=data.extracted_data.name;
+            document.getElementById("date").innerText =
+                data.date || "Missing";
 
-document.getElementById("phone").innerHTML=data.extracted_data.phone;
+            document.getElementById("status").innerHTML =
+                `<span class="verified">${result.status}</span>`;
 
-document.getElementById("email").innerHTML=data.extracted_data.email;
+            alert("Extraction Completed!");
 
-document.getElementById("course").innerHTML=data.extracted_data.course;
+        } else {
 
-document.getElementById("college").innerHTML=data.extracted_data.college;
+            alert(result.error);
 
-document.getElementById("address").innerHTML=data.extracted_data.address;
+        }
 
-document.getElementById("date").innerHTML=data.extracted_data.date;
+    } catch (error) {
 
-if(data.status==="Verified"){
+        console.error(error);
+        alert("Cannot connect to FastAPI.");
 
-document.getElementById("status").style.background="green";
+    }
 
-document.getElementById("status").innerHTML="✅ VERIFIED";
-
-}else{
-
-document.getElementById("status").style.background="red";
-
-document.getElementById("status").innerHTML="❌ NOT VERIFIED";
-
-}
-
-})
-
-.catch(error=>{
-
-console.log(error);
-
-document.getElementById("status").style.background="red";
-
-document.getElementById("status").innerHTML="❌ Backend Connection Failed";
+    extractBtn.innerHTML = "Extract";
+    extractBtn.disabled = false;
 
 });
 
-}
+// =============================
+// Clear
+// =============================
+
+clearBtn.addEventListener("click", () => {
+
+    fileInput.value = "";
+
+    previewImage.src =
+        "https://via.placeholder.com/500x500?text=Document+Preview";
+
+    document.getElementById("name").innerText = "-";
+    document.getElementById("course").innerText = "-";
+    document.getElementById("department").innerText = "-";
+    document.getElementById("college").innerText = "-";
+    document.getElementById("register").innerText = "-";
+    document.getElementById("email").innerText = "-";
+    document.getElementById("phone").innerText = "-";
+    document.getElementById("address").innerText = "-";
+    document.getElementById("date").innerText = "-";
+
+    document.getElementById("status").innerHTML =
+        `<span class="verified">Verified</span>`;
+
+});
