@@ -1,89 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Extraction & Verification Tool</title>
 
-<link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extraction and Verification Tool</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
 <body>
 
-<div class="container">
+    <!-- ================= HEADER ================= -->
 
-<h1>📄 Extraction & Verification of Information</h1>
-<p class="subtitle">From Semi-Categorised Data</p>
+    <header>
 
-<div class="upload-box">
+        <div class="logo">
+            <i class="fa-solid fa-file-circle-check"></i>
+            <h2>SemiCategorised Data Tool</h2>
+        </div>
 
-<input type="file" id="imageInput" accept="image/*">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Help</a>
+            <a href="#">User</a>
+        </nav>
 
-<img id="preview">
+    </header>
 
-<button onclick="uploadImage()">Extract & Verify</button>
+    <!-- ================= HERO ================= -->
 
-</div>
+    <section class="hero">
 
-<div class="result-card">
+        <h1>Extraction and Verification of Information</h1>
 
-<h2>Extracted Information</h2>
+        <h2>from Semi-Categorised Data</h2>
 
-<table>
+        <p>
+            Upload a document, extract important information using Google Gemini AI,
+            and securely store the extracted data in a MySQL database.
+        </p>
 
-<tr>
-    <th>Field</th>
-    <th>Information</th>
-</tr>
+    </section>
 
-<tr>
-    <td>👤Name</td>
-    <td id="name">-</td>
-</tr>
+    <!-- ================= WORKSPACE ================= -->
 
-<tr>
-    <td>📞 Phone</td>
-    <td id="phone">-</td>
-</tr>
+    <section class="workspace">
 
-<tr>
-    <td>✉ Email</td>
-    <td id="email">-</td>
-</tr>
+        <!-- LEFT PANEL -->
 
-<tr>
-    <td>🎓 Course</td>
-    <td id="course">-</td>
-</tr>
+        <div class="left-panel">
 
-<tr>
-    <td>🏫 College</td>
-    <td id="college">-</td>
-</tr>
+            <h2>Upload Document</h2>
 
-<tr>
-    <td>📍 Address</td>
-    <td id="address">-</td>
-</tr>
+            <div class="upload-box">
 
-<tr>
-    <td>📅 Date</td>
-    <td id="date">-</td>
-</tr>
+    <!-- Hidden File Input -->
+    <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+        hidden>
 
-<tr>
-    <td>📊 Status</td>
-    <td id="status">Waiting...</td>
-</tr>
+    <!-- Custom Button -->
+    <button id="uploadBtn">
+        <i class="fa-solid fa-upload"></i>
+        Choose File
+    </button>
 
-</table>
-
-</div>
-</div>
+    <p id="fileName">No file chosen</p>
 
 </div>
 
-<script src="script.js"></script>
+            <div class="preview-box">
+
+                <img
+                    id="previewImage"
+                    src="https://via.placeholder.com/500x500?text=Document+Preview"
+                    alt="Preview">
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+
+        <div class="right-panel">
+
+            <h2>Extracted Information</h2>
+
+            <table>
+
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+
+                <tr>
+                    <td>Name</td>
+                    <td id="name">-</td>
+                </tr>
+
+                <tr>
+                    <td>Course</td>
+                    <td id="course">-</td>
+                </tr>
+
+                <tr>
+                    <td>Department</td>
+                    <td id="department">-</td>
+                </tr>
+
+                <tr>
+                    <td>College</td>
+                    <td id="college">-</td>
+                </tr>
+
+                <tr>
+                    <td>Register No</td>
+                    <td id="register">-</td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td id="email">-</td>
+                </tr>
+
+                <tr>
+                    <td>Phone</td>
+                    <td id="phone">-</td>
+                </tr>
+
+                <tr>
+                    <td>Address</td>
+                    <td id="address">-</td>
+                </tr>
+
+                <tr>
+                    <td>Date</td>
+                    <td id="date">-</td>
+                </tr>
+
+                <tr>
+                    <td>Status</td>
+
+                    <td id="status">
+
+                        <span class="verified">
+
+                            Verified
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <div class="buttons">
+
+                <button id="extractBtn">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    Extract
+
+                </button>
+
+                <button id="storeBtn">
+
+                    <i class="fa-solid fa-database"></i>
+
+                    Store
+
+                </button>
+
+                <button id="clearBtn">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                    Clear
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+
+            © 2026 Extraction and Verification of Information from Semi-Categorised Data |
+            Developed using FastAPI, Google Gemini AI and MySQL
+
+        </p>
+
+    </footer>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
